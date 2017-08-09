@@ -35,7 +35,6 @@ class Window(QDialog):
 
         # Initialisiere vertikales Layout
         self.Layouts["vbox"] = QVBoxLayout()
-        self.Layouts["vbox"].addLayout(self.Layouts["vboxtitlebar"])
 
         # Setze Layout für das Fenster
         self.setLayout(self.Layouts["vbox"])

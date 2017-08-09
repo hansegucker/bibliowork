@@ -1,9 +1,9 @@
-log = []
+logged = []
 
 
 def log(message, category='log'):
     category = '[' + category.upper() + ']'
-    log.append([category, message])
+    logged.append([category, message])
 
 
 def exit():
