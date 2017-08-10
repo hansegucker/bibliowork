@@ -1,10 +1,8 @@
-from PyQt5.QtWidgets import (QWidget, QToolTip, QDesktopWidget,
-                             QHBoxLayout, QVBoxLayout,
-                             QLineEdit, QPushButton, QLabel,
+from PyQt5.QtWidgets import (QWidget, QDesktopWidget, QMainWindow,
+                             QHBoxLayout, QVBoxLayout, QGridLayout,
+                             QLineEdit, QPushButton, QLabel, QTextEdit,
                              QMessageBox,
-                             QApplication, QMainWindow, QAction,
-                             QGridLayout, QSizePolicy,
-                             QTextEdit, QMessageBox)
+                             QAction, QSizePolicy, QToolTip, QApplication)
 from PyQt5.QtGui import QIcon, QFont, QPixmap
 from PyQt5.QtCore import *
 
@@ -24,20 +22,17 @@ class Window(QMainWindow):
         self.Menus = {}
         self.MenuActions = {}
 
+        # Define colors
         self.color_green = '#5cb85c'
         self.color_red = '#d9534f'
 
+        # Define icons
         self.Icons['exit'] = QIcon('res/img/ic_exit.png')
+        self.Icons['add'] = QIcon('res/img/ic_add.png')
 
-        self.MenuActions['exit'] = self.make_action(
-            display_text='Programm beenden', help_text='Beendet \'BiblioWork\'.',
-            icon='exit', action=self.close, shortcut='Ctrl+Q')
-
-        self.Menus['file'] = self.menuBar().addMenu('&Datei')
-        self.Menus['file'].addAction(self.MenuActions['exit'])
-
-        # Toolbar
+        # Toolbar / Menubar
         self.toolbar = self.addToolBar('Toolbar')
+        self.menubar = self.menuBar()
 
         # Initialisiere die UI und den Mainloop
         self.init_window_ui()
@@ -59,8 +54,6 @@ class Window(QMainWindow):
         self.setGeometry(200, 150, 1000, 600)
 
     def finish_ui(self):
-        # Finish toolbar
-        self.toolbar.addAction(self.MenuActions['exit'])
 
         # Add stretch
         self.Layouts['vbox'].addStretch()
