@@ -1,16 +1,26 @@
 import peewee
 
-db = peewee.SqliteDatabase("data.db")
+db = peewee.SqliteDatabase("data/data.db")
 
 
-class Author(peewee.Model):
+class AuthorCombination(peewee.Model):
+    name = peewee.CharField()
+
+
+class Publisher(peewee.Model):
     name = peewee.CharField()
 
 
 class Book(peewee.Model):
     title = peewee.CharField()
+    subtitle = peewee.CharField()
     description = peewee.TextField()
-    authors = peewee.ForeignKeyField(Author, related_name=published_books)
+    authors = peewee.ForeignKeyField(
+        AuthorCombination, related_name=published_books)
+    publisher = peewee.ForeignKeyField(Publisher, related_name=published_books)
+    isbn = peewee.IntegerField()
+    barcode = peewee.IntegerField()
+    has_barcode = peewee.BooleanField()
 
 
 # Connect to DB
