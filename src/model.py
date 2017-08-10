@@ -16,8 +16,9 @@ class Book(peewee.Model):
     subtitle = peewee.CharField()
     description = peewee.TextField()
     authors = peewee.ForeignKeyField(
-        AuthorCombination, related_name=published_books)
-    publisher = peewee.ForeignKeyField(Publisher, related_name=published_books)
+        AuthorCombination, related_name='published_books')
+    publisher = peewee.ForeignKeyField(
+        Publisher, related_name='published_books')
     isbn = peewee.IntegerField()
     barcode = peewee.IntegerField()
     has_barcode = peewee.BooleanField()
@@ -27,7 +28,7 @@ class Book(peewee.Model):
 db.connect()
 
 # Create tables
-db.create_tables([Author, Book], safe=True)
+db.create_tables([AuthorCombination, Publisher, Book], safe=True)
 
 # Close connection
 db.close()
