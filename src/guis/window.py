@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QWidget, QDesktopWidget, QMainWindow,
                              QHBoxLayout, QVBoxLayout, QGridLayout,
                              QLineEdit, QPushButton, QLabel, QTextEdit,
-                             QMessageBox,
+                             QMessageBox, QComboBox,
                              QAction, QSizePolicy, QToolTip, QApplication)
 from PyQt5.QtGui import QIcon, QFont, QPixmap
 from PyQt5.QtCore import *
@@ -40,9 +40,6 @@ class Window(QMainWindow):
         # Initialisiere die UI und den Mainloop
         self.init_window_ui()
         self.init_must_check()
-
-    def add_autocomplete(self, label):
-        pass
 
     # Allgemeine UI-Funktionen
     def init_window_ui(self):

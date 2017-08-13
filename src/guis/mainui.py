@@ -11,9 +11,8 @@ class MainUI(Window):
 
     def handler_add_book(self):
         if (self.book_screen != None):
-            self.book_screen.show()
-        else:
-            self.book_screen = BookUI(self)
+            del(self.book_screen)
+        self.book_screen = BookUI(self, new_book=True)
 
     def init_ui(self):
         self.setWindowTitle('BiblioWork')
