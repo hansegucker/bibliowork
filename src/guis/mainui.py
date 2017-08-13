@@ -3,13 +3,17 @@ from guis.bookui import BookUI
 
 
 class MainUI(Window):
+    book_screen = None
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.init_ui()
 
     def handler_add_book(self):
-        new_book_screen = BookUI(self)
+        if (self.book_screen != None):
+            self.book_screen.show()
+        else:
+            self.book_screen = BookUI(self)
 
     def init_ui(self):
         self.setWindowTitle('BiblioWork')

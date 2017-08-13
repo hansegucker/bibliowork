@@ -17,7 +17,10 @@ class Window(QMainWindow):
         self.Layouts = {}
         self.Icons = {}
         self.OtherWidgets = {}
-        self.TextEdits = {}
+        self.Edits = {}
+
+        self.widget = QWidget()
+        self.setCentralWidget(self.widget)
 
         self.Menus = {}
         self.MenuActions = {}
@@ -38,6 +41,9 @@ class Window(QMainWindow):
         self.init_window_ui()
         self.init_must_check()
 
+    def add_autocomplete(self, label):
+        pass
+
     # Allgemeine UI-Funktionen
     def init_window_ui(self):
 
@@ -48,7 +54,7 @@ class Window(QMainWindow):
         self.Layouts['vbox'] = QVBoxLayout()
 
         # Setze Layout für das Fenster
-        self.setLayout(self.Layouts['vbox'])
+        self.widget.setLayout(self.Layouts['vbox'])
 
         # Set window size
         self.setGeometry(200, 150, 1000, 600)
