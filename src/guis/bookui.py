@@ -11,7 +11,26 @@ class BookUI(Window):
             self.load_book(book_id=book_id)
         self.init_ui()
 
+    def get_data_from_edit(edit_id):
+        return self.Edits[edit_id].Text()
+
+    def register_edit(self, edit_id, title, pos_y, big=False, db_con=None):
+        self.Labels[edit_id] = QLabel(title)
+        if big:
+            self.Edits[edit_id] = QTextEdit()
+        else:
+            self.Edits[edit_id] = QLineEdit()
+        self.Layouts['edit_grid'].addWidget(self.Labels[edit_id], pos_y, 0)
+        self.Layouts['edit_grid'].addWidget(self.Edits[edit_id], pos_y, 1)
+
+        # DB connection
+        self.EditDBCons[edit_id] = db_con
+
     def init_ui(self):
+        # Make list for db connections
+        self.EditDBCons = {}
+
+        # Set window title
         self.setWindowTitle('Buch bearbeiten | BiblioWork')
 
         # Grid layout
@@ -19,16 +38,10 @@ class BookUI(Window):
         self.Layouts['edit_grid'].setSpacing(10)
 
         # ISBN
-        self.Labels['isbn'] = QLabel('ISBN')
-        self.Edits['isbn'] = QLineEdit()
-        self.Layouts['edit_grid'].addWidget(self.Labels['isbn'], 0, 0)
-        self.Layouts['edit_grid'].addWidget(self.Edits['isbn'], 0, 1)
+        self.register_edit('isbn', title='ISBN', pos_y=0)
 
         # Title
-        self.Labels['title'] = QLabel('Titel')
-        self.Edits['title'] = QLineEdit()
-        self.Layouts['edit_grid'].addWidget(self.Labels['title'], 1, 0)
-        self.Layouts['edit_grid'].addWidget(self.Edits['title'], 1, 1)
+        self.register_edit('title', title='Titel', pos_y=1)
 
         # Thumbnail
         self.Labels['thumbnail'] = QLabel()
@@ -39,10 +52,7 @@ class BookUI(Window):
             self.Labels['thumbnail'], 1, 2, 15, 1)
 
         # Subtitle
-        self.Labels['subtitle'] = QLabel('Untertitel')
-        self.Edits['subtitle'] = QLineEdit()
-        self.Layouts['edit_grid'].addWidget(self.Labels['subtitle'], 2, 0)
-        self.Layouts['edit_grid'].addWidget(self.Edits['subtitle'], 2, 1)
+        self.register_edit('subtitle', title='Untertitel', pos_y=2)
 
         ###########
         # Authors #
@@ -118,6 +128,9 @@ class BookUI(Window):
         # Finish layout and UI
         self.Layouts['vbox'].addLayout(self.Layouts['edit_grid'])
         self.finish_ui()
+
+    def save_data(self):
+        pass
 
     def update_data(self):
         self.Edits['isbn'].setText(self.book.isbn)
