@@ -14,17 +14,23 @@ class BookUI(Window):
     def get_data_from_edit(edit_id):
         return self.Edits[edit_id].Text()
 
-    def register_edit(self, edit_id, title, pos_y, big=False, db_con=None):
+    def register_edit(self, edit_id, title, pos_y, big=False, editable=True):
+        # Add title label for edit
         self.Labels[edit_id] = QLabel(title)
+
+        # More than one line
         if big:
             self.Edits[edit_id] = QTextEdit()
         else:
             self.Edits[edit_id] = QLineEdit()
+
+        # Read only
+        if editable == False:
+            self.Edits[edit_id].setReadOnly(True)
+
+        # Add to layout
         self.Layouts['edit_grid'].addWidget(self.Labels[edit_id], pos_y, 0)
         self.Layouts['edit_grid'].addWidget(self.Edits[edit_id], pos_y, 1)
-
-        # DB connection
-        self.EditDBCons[edit_id] = db_con
 
     def init_ui(self):
         # Make list for db connections
@@ -77,12 +83,8 @@ class BookUI(Window):
         #######
 
         # Description
-        self.Labels['description'] = QLabel('Beschreibung')
-        self.Edits['description'] = QTextEdit()
-        self.Layouts['edit_grid'].addWidget(
-            self.Labels['description'], 6, 0)
-        self.Layouts['edit_grid'].addWidget(
-            self.Edits['description'], 6, 1)
+        self.register_edit(
+            'description', title='Beschreibung', pos_y=6, big=True)
 
         #############
         # Publisher #
@@ -109,18 +111,12 @@ class BookUI(Window):
         ######
 
         # ID
-        self.Labels['id'] = QLabel('Datenbank-ID')
-        self.Edits['id'] = QLineEdit()
-        self.Edits['id'].setReadOnly(True)
-        self.Layouts['edit_grid'].addWidget(self.Labels['id'], 10, 0)
-        self.Layouts['edit_grid'].addWidget(self.Edits['id'], 10, 1)
+        self.register_edit('id', title='Datenbank-ID',
+                           pos_y=10, editable=False)
 
         # Barcode
-        self.Labels['barcode'] = QLabel('EAN-13-Barcode')
-        self.Edits['barcode'] = QLineEdit()
-        self.Edits['barcode'].setReadOnly(True)
-        self.Layouts['edit_grid'].addWidget(self.Labels['barcode'], 11, 0)
-        self.Layouts['edit_grid'].addWidget(self.Edits['barcode'], 11, 1)
+        self.register_edit('barcode', title='EAN-13-Barcode',
+                           pos_y=11, editable=False)
 
         # Load data
         self.update_data()
@@ -133,12 +129,16 @@ class BookUI(Window):
         pass
 
     def update_data(self):
-        self.Edits['isbn'].setText(self.book.isbn)
-        self.Edits['title'].setText(self.book.title)
-        self.Edits['subtitle'].setText(self.book.subtitle)
-        self.Edits['description'].setText(self.book.description)
-        self.Edits['id'].setText(str(self.book.id))
-        self.Edits['barcode'].setText(self.book.barcode)
+        edit_cons = {
+            'isbn': self.book.isbn,
+            'title': self.book.title,
+            'subtitle': self.book.subtitle,
+            'description': self.book.description,
+            'id': str(self.book.id),
+            'barcode': self.book.barcode
+        }
+        for key, value in edit_cons.items():
+            self.Edits[key].setText(value)
 
     def load_thumbnail(self, file_name):
         pixmap = QPixmap(file_name)
