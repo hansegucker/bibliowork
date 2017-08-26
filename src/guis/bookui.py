@@ -11,8 +11,8 @@ class BookUI(Window):
             self.load_book(book_id=book_id)
         self.init_ui()
 
-    def get_data_from_edit(edit_id):
-        return self.Edits[edit_id].Text()
+    def get_data_from_edit(self, edit_id):
+        return self.Edits[edit_id].text()
 
     def register_edit(self, edit_id, title, pos_y, big=False, editable=True):
         # Add title label for edit
@@ -23,6 +23,9 @@ class BookUI(Window):
             self.Edits[edit_id] = QTextEdit()
         else:
             self.Edits[edit_id] = QLineEdit()
+
+        # Add event
+        self.Edits[edit_id].textChanged.connect(self.save_data)
 
         # Read only
         if editable == False:
@@ -118,6 +121,10 @@ class BookUI(Window):
         self.register_edit('barcode', title='EAN-13-Barcode',
                            pos_y=11, editable=False)
 
+        self.Labels['message'] = QLabel()
+        self.Labels['message'].setStyleSheet('color: red; font-weight: bold;')
+        self.Layouts['edit_grid'].addWidget(self.Labels['message'], 12, 0)
+
         # Load data
         self.update_data()
 
@@ -125,8 +132,35 @@ class BookUI(Window):
         self.Layouts['vbox'].addLayout(self.Layouts['edit_grid'])
         self.finish_ui()
 
+    def error_message(self, message):
+        self.Labels['message'].setText(message)
+
     def save_data(self):
-        pass
+        # Clean error message
+        self.error_message('')
+
+        print('Save data...')
+
+        # Check ISBN
+        check_ok = False
+        isbn = self.get_data_from_edit('isbn')
+        isbn = isbn.replace('-', '')
+        try:
+            int(isbn)
+            if len(isbn) == 13:
+                check_ok = True
+            else:
+                check_ok = False
+        except:
+            check_ok = False
+
+        if check_ok:
+            pass
+        else:
+            self.error_message('Bitte geben Sie eine korrekte ISBN ein.')
+        # Do something
+
+        print('Done.')
 
     def update_data(self):
         edit_cons = {
