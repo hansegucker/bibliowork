@@ -1,0 +1,9 @@
+{% if books %}
+<ul>
+  {% for book in books %}
+  <li><a href="/biblio/{{ book.id }}/">{{ book }}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Es existieren keine Bücher.</p>
+{% endif %}
