@@ -1,0 +1,9 @@
+<h1>{{ book.title }}</h1>
+<h2>{{ book.subtitle }}</h2>
+<p>von {{ book.authors.name}}</p>
+<hr>
+<p><strong>Beschreibung</strong><br> {{ book.description }}
+</p>
+<hr>
+<p><strong>Verlag: </strong>{{ book.publisher.shown_name }} ({{ book.publisher.real_name}})</p>
+<p><strong>ISBN (Barcode): </strong>{{book.isbn}} ({{book.barcode}})</p>

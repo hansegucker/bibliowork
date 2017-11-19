@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^(?P<book_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/1/edit/
     url(r'^(?P<book_id>[0-9]+)/edit/$', views.edit, name='edit'),
+    # ex: /polls/1/save/
+    url(r'^(?P<book_id>[0-9]+)/save/$', views.save, name='save'),
 ]
